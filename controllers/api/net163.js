@@ -1,7 +1,5 @@
 const moment = require('moment')
-const code = require('../../commons/code')
-const request = require('../../util/request')
-
+const request = require('../../util/net163/request')
 
 
 exports.topList = async function (req, res, next) {
@@ -43,7 +41,7 @@ exports.search = async function (req, res, next) {
         let data = {
             s: req.query.keywords,
             type: req.query.type || 1, 
-            limit: req.query.limit || 30,
+            limit: req.query.limit || 50,
             offset: req.query.offset || 0
         }
         console.log(data)
@@ -56,6 +54,7 @@ exports.search = async function (req, res, next) {
         res.send(result)
     } catch(e) {
         console.log(e)
+        res.send({status:500})
     }
 }
 
