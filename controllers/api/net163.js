@@ -1,6 +1,5 @@
 const moment = require('moment')
 const code = require('../../commons/code')
-const tool = require('../../commons/tool')
 const request = require('../../util/request')
 
 
@@ -20,7 +19,7 @@ exports.search = async function (req, res, next) {
             `https://music.163.com/weapi/search/get`, 
             data,
             {crypto: 'weapi', cookie: req.cookie, proxy: req.proxy}
-          )
+        )
         res.send(result)
     } catch(e) {
         console.log(e)
