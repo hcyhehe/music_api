@@ -11,9 +11,9 @@ const cors = require('cors');
 const code = require('./commons/code');
 const app = express();
 const apiRouter = require('./routes/api_router');
+const setting = require('./config/setting')
 
-const port = process.env.PORT || '8086'
-
+const port = setting.port
 
 const logDirectory = path.join(__dirname, 'log');
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);  //确保日志文件夹存在

@@ -9,7 +9,7 @@ router.get('/net163/topList', net163.topList)
 router.get('/net163/search', net163.search)
 
 router.get('/qq/search', qq.search)
-router.get('/qq/getVKey', qq.getVKey)
+router.get('/qq/getUrls', qq.getUrls)
 
 
 module.exports = router
