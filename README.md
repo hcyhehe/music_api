@@ -19,13 +19,11 @@
 1.  后台监听端口在config/setting.js里面设置，不设置默认为8086
 2.  路由文件为routes/api_router.js
 3.  网易云音乐搜索接口：/net163/search，method为get，参数为keywords
-    QQ音乐搜索接口：/qq/search，method为get，参数为key
+4.  QQ音乐搜索接口：/qq/search，method为get，参数为key
 
 
-#### 参与贡献
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+#### 版本更新计划
+1.  后期加入虾米音乐的搜索功能
+2.  加入歌曲详情页的API
 
 
