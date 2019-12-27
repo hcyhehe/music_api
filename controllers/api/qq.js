@@ -89,7 +89,7 @@ exports.search = async function (req, res, next) {
 
           let arr = []
           list.map(item=>{
-            arr.push({id:item.songmid, name:item.songname, artists:item.singer})
+            arr.push({id:item.songmid, name:item.songname, artists:item.singer, fee:item.pay.payplay})
           })
           res.send({ status: 200, data: arr })
     } catch(e) {
