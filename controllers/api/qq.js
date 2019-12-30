@@ -147,7 +147,7 @@ exports.topList = async function(req, res, next){
         const {
             id = 26, 
             pageNo = 1, 
-            pageSize = 50, 
+            pageSize = 100, 
             period, 
             time = moment().format('YYYY-MM-DD'), 
             raw 
@@ -198,7 +198,7 @@ exports.topList = async function(req, res, next){
                 res.send(result)
             } else {
                 const resData = result.detail.data
-                res.send({
+                let data = {
                     status: 200,
                     data: {
                         info: {
@@ -221,7 +221,13 @@ exports.topList = async function(req, res, next){
                         pageNo,
                         pageSize,
                     }
+                }
+                let arr = []
+                data.data.list.map(item=>{
+                    arr.push({id:item.mid, name:item.name, ar:item.singer, fee:item.pay.pay_play})
                 })
+                data.data.list = arr
+                res.send(data)
             }
         }
     } catch(e) {

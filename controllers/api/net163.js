@@ -19,7 +19,7 @@ exports.topList = async function (req, res, next) {
         }
         let data = {
             id: topList[req.query.idx],
-            n: 50
+            n: 100
         }
         //console.log(data)
         let result = await request(
