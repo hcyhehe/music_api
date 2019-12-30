@@ -19,15 +19,16 @@ exports.topList = async function (req, res, next) {
         }
         let data = {
             id: topList[req.query.idx],
-            n: 10000
+            n: 50
         }
-        console.log(data)
+        //console.log(data)
         let result = await request(
             'POST', 
             `https://music.163.com/weapi/v3/playlist/detail`, 
             data,
             {crypto: 'linuxapi', cookie: req.query.cookie, proxy: req.query.proxy}
         )
+        //console.log(result.body.playlist.tracks.length)
         res.send(result)
     } catch(e) {
         console.log(e)

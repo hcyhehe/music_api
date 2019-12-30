@@ -141,3 +141,92 @@ exports.getUrls = async function (req, res, next) {
 }
 
 
+
+exports.topList = async function(req, res, next){
+    try{
+        const {
+            id = 26, 
+            pageNo = 1, 
+            pageSize = 50, 
+            period, 
+            time = moment().format('YYYY-MM-DD'), 
+            raw 
+        } = req.query
+        let timeType = ''
+
+        let postPeriod = (period || moment(time).format(timeType))
+        switch (Number(id)) {
+            case 4:   //流行指数榜
+            case 26:  //热歌榜
+            case 27:  //新歌榜
+            case 62:  //飙升榜
+            timeType = 'YYYY-MM-DD';
+            break;
+            default:
+            timeType = 'YYYY_W';
+        }
+        console.log(postPeriod)
+
+        const reqFunc = async () => request({
+            url: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
+            data: {
+            g_tk: 5381,
+            data: JSON.stringify({
+                "detail": {
+                "module": "musicToplist.ToplistInfoServer",
+                "method": "GetDetail",
+                "param": {
+                    "topId": Number(id),
+                    "offset": (pageNo - 1) * pageSize,
+                    "num": Number(pageSize),
+                    "period": postPeriod,
+                },
+                },
+                "comm": { "ct": 24, "cv": 0 }
+            }),
+            },
+        })
+        let result = await reqFunc()
+
+        if (result.detail.data.data.period !== postPeriod) {
+            postPeriod = result.detail.data.data.period
+            result = await reqFunc()
+        }
+
+        if (result.detail.data.data.period){
+            if (Number(raw)) {
+                res.send(result)
+            } else {
+                const resData = result.detail.data
+                res.send({
+                    status: 200,
+                    data: {
+                        info: {
+                            title: resData.data.title,
+                            subTitle: resData.data.titleSub,
+                            titleDetail: resData.data.titleDetail,
+                            desc: resData.data.intro,
+                        },
+                        list: resData.data.song.map((o, i) => (
+                            {
+                                ...o,
+                                ...(resData.songInfoList[i]),
+                            }
+                        )),
+                        total: resData.data.totalNum,
+                        listenNum: resData.data.listenNum,
+                        period: postPeriod,
+                        update: resData.data.updateTime,
+                        id: resData.data.topId,
+                        pageNo,
+                        pageSize,
+                    }
+                })
+            }
+        }
+    } catch(e) {
+        console.log(e)
+        res.send({status:500})
+    }
+}
+
